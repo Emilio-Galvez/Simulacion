@@ -317,7 +317,7 @@ Cada imagen de escenario contiene:
 | **Asignatura** | Simulación |
 | **Práctica** | N.º 03 — Simulación de un sistema de líneas de espera M/M/1 mediante SimPy |
 | **Docente** | José O. Guamán Q. |
-| **Autor** | *(tu nombre)* |
+| **Autor** | Galvez Emilio |
 
 ### Licencia
 
