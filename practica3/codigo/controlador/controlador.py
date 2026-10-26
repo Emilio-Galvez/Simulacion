@@ -9,8 +9,9 @@ from modelo.resultado import Resultado
 from vista import consola, graficas
 
 
-class ControladorMM1:
-    def __init__(self, config):
+class ControladorMM1: # Esta clase organiza simulador.py y ejecuta teoria.py y estadisticas.py
+                                # Controaldor reune los resultados
+    def __init__(self, config):  # Recibe la configuracion al crearse y prepara los objetos de tipo escenario
         if config["TIEMPO_CALENTAMIENTO"] >= config["TIEMPO_SIMULACION"]:
             raise ValueError("El calentamiento debe ser menor que el tiempo de simulación")
         self.config = config
@@ -23,11 +24,8 @@ class ControladorMM1:
             self.escenarios.append(escenario)
             numero = numero + 1
 
-    def simular_todos(self, resultados_listos):
-        for escenario in self.escenarios:
-            resultados_listos.put(self.simular(escenario))
-
-    def ejecutar(self):
+    
+    def ejecutar(self): # Empieza el proceso y cuando hay resultados se los entrega a la vista
         resultados_listos = queue.Queue()
         hilo_simulacion = threading.Thread(target=self.simular_todos, args=(resultados_listos,), daemon=True)
         hilo_simulacion.start()
@@ -50,9 +48,9 @@ class ControladorMM1:
 
         if not escenario.es_estable():
             resultado.mensaje = "El sistema no es estable: λ ≥ μ, la cola crece sin límite."
-            return resultado
+            return resultado # Comprueba si es estable
 
-        simulador = SimuladorMM1(escenario, self.config["SEMILLA"])
+        simulador = SimuladorMM1(escenario, self.config["SEMILLA"]) # INicia al simualdor, al terminar reune sus datos y calcula als metricas
         simulador.ejecutar(self.config["MINUTOS_ANIMADOS"], self.config["MINUTOS_POR_PASO"])
 
         resultado.fotos = simulador.fotos
@@ -63,3 +61,7 @@ class ControladorMM1:
             simulador.clientes, simulador.estados, self.config["TIEMPO_CALENTAMIENTO"], escenario.tiempo
         )
         return resultado
+    
+    def simular_todos(self, resultados_listos): # Repite el trabajo con todos los escenarios configurados
+        for escenario in self.escenarios: # Se recorre los escenarios almacenados en self.escenarios
+            resultados_listos.put(self.simular(escenario)) # Agregamos elementos a al cola

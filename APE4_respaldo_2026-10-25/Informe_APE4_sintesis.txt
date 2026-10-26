@@ -1,0 +1,148 @@
+INFORME APE 4 - MODELO SIR EN JAVA Y NETLOGO
+=============================================
+
+1. DATOS DE LA SIMULACIÓN
+-------------------------
+- Población: 100 personas.
+- Al inicio: 95 susceptibles, 5 infectados y 0 recuperados.
+- Beta (contagio): 0.30.
+- Gamma (recuperación): 0.10.
+- Duración: 100 pasos.
+- Semilla utilizada: 42.
+- Se registran 101 filas: del tiempo 0 al tiempo 100.
+- En todo momento se cumple S + I + R = 100.
+
+2. GRÁFICAS DE EVOLUCIÓN
+------------------------
+Archivos generados:
+- graficas/evolucion_java.png
+- graficas/evolucion_netlogo.png
+
+En las dos gráficas se observa el mismo comportamiento general:
+- Los susceptibles bajan con el tiempo.
+- Los infectados suben, llegan a un pico y después bajan.
+- Los recuperados suben poco a poco hasta que ya no quedan infectados.
+
+Resultados concretos:
+- Java: el pico fue de 45 infectados en el tiempo 15. Terminó con
+  2 susceptibles, 0 infectados y 98 recuperados.
+- NetLogo: el pico fue de 30 infectados en el tiempo 25. Terminó con
+  7 susceptibles, 0 infectados y 93 recuperados.
+
+En Java la infección fue más rápida y llegó a más personas. En NetLogo
+fue más lenta, pero la forma de las curvas es parecida.
+
+3. COMPARACIÓN DE RESULTADOS
+----------------------------
+Archivos generados:
+- graficas/comparacion_java_netlogo.png
+- graficas/comparacion_infectados.png
+- graficas/estados_finales.png
+- resultados/comparacion_resultados.csv
+
+Tabla resumen:
+
+  Herramienta   S final   I final   R final   Pico I   Tiempo pico   Total infectados
+  Java             2         0        98        45         15              98
+  NetLogo          7         0        93        30         25              93
+
+La diferencia principal está en la velocidad del contagio:
+- Java alcanzó el pico 10 pasos antes que NetLogo.
+- Java tuvo 15 infectados más en el pico.
+- Java terminó con 5 recuperados más que NetLogo.
+- En las dos herramientas la epidemia terminó y no quedaron infectados.
+
+Las curvas no son idénticas, pero el comportamiento general sí coincide.
+Eso es normal en una simulación aleatoria.
+
+4. VISUALIZACIÓN EN NETLOGO CON LOS DATOS GENERADOS
+---------------------------------------------------
+La idea es usar NetLogo como visor de los datos que ya generó el programa.
+Se pueden cargar los archivos:
+- resultados/resultados_java.csv
+- resultados/resultados_netlogo.csv
+
+En NetLogo se pega un código que lee los CSV con la extensión csv, guarda
+las filas en una lista y las dibuja en un plot. Con un botón "cargar-datos"
+se leen los archivos y con un botón "go" se avanza paso a paso por el
+tiempo. En el plot se dibujan tres plumas: susceptibles, infectados y
+recuperados.
+
+También se puede hacer un plot de comparación con dos plumas para los
+infectados: una con los datos de Java y otra con los datos de NetLogo.
+Así se ve directamente en NetLogo la diferencia entre las dos corridas.
+
+5. VENTAJAS Y LIMITACIONES DE CADA HERRAMIENTA
+----------------------------------------------
+JAVA
+Ventajas:
+- Es rápido y ordenado.
+- Permite repetir la simulación con la misma semilla y obtener el mismo
+  resultado dentro del mismo programa.
+- Sirve bien para poblaciones grandes y para guardar los datos en CSV.
+- El código queda separado en modelo, controlador y exportación.
+
+Limitaciones:
+- No es visual por sí solo: no muestra la población ni las gráficas.
+- Hay que escribir más código que en NetLogo.
+- Para ver las curvas se necesita otro programa o generar las gráficas
+  aparte.
+
+NETLOGO
+Ventajas:
+- Es visual e interactivo: se ve a las personas cambiar de color.
+- Es fácil de explicar y de mostrar a otras personas.
+- Tiene botones, sliders y plots sin tener que programar una interfaz.
+- Permite cambiar beta, gamma, población o semilla desde la pantalla.
+
+Limitaciones:
+- No es tan cómodo para muchos datos o cálculos pesados.
+- Su lenguaje es propio de NetLogo y no se reutiliza fácilmente en otros
+  programas.
+- Comparar resultados exactos con Java es difícil porque el azar funciona
+  de otra manera.
+
+6. POR QUÉ DOS IMPLEMENTACIONES DEL MISMO MODELO DAN RESULTADOS DIFERENTES
+--------------------------------------------------------------------------
+Aunque las reglas sean las mismas, los resultados no tienen por qué ser
+idénticos. Las razones principales son:
+
+1. Cada herramienta usa un generador de números aleatorios distinto.
+   Java, NetLogo (y Python, si se usara) no generan la misma secuencia de
+   números aunque se les ponga la misma semilla.
+
+2. La semilla 42 no significa lo mismo en todas las herramientas.
+   En Java produce una secuencia y en NetLogo produce otra.
+
+3. Cambia el orden en que se piden los números aleatorios.
+   Java elige primero los infectados iniciales y después recorre a las
+   personas una por una. NetLogo usa sus propias funciones para elegir
+   infectados y para decidir contagios. Ese orden distinto cambia el
+   resultado.
+
+4. Una diferencia pequeña se va haciendo más grande.
+   Si en un paso se contagia una persona más, al siguiente paso hay más
+   infectados y eso aumenta la probabilidad de nuevos contagios. Por eso
+   dos corridas que empiezan casi igual pueden terminar con valores
+   distintos.
+
+Por eso no se debe esperar que las curvas sean iguales. Lo correcto es
+comparar el comportamiento general: que los susceptibles bajen, que los
+infectados tengan un pico y que los recuperados suban hasta que la
+epidemia termine. Si se repitiera la simulación muchas veces con semillas
+distintas, los promedios de Java y NetLogo se parecerían mucho más.
+
+7. CONCLUSIÓN
+-------------
+Las dos implementaciones aplican la misma idea del modelo SIR y conservan
+la población total. Las diferencias que aparecen (pico, tiempo del pico y
+cantidad final de recuperados) son normales y se deben al azar, no a un
+error del programa.
+
+Java es más útil para calcular y guardar los datos; NetLogo es más útil
+para visualizar, explicar y mostrar la simulación. Usar las dos
+herramientas permite comprobar que el modelo funciona de forma parecida
+aunque cambien los detalles de cada corrida.
+
+Nota: la guía menciona Python, pero en este proyecto se trabajó solamente
+con Java y NetLogo.
