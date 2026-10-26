@@ -1,6 +1,0 @@
-src/controlador/ExportadorCSV.java
-src/controlador/ControladorSimulacion.java
-src/Main.java
-src/modelo/Resultado.java
-src/modelo/Estado.java
-src/modelo/ModeloSIR.java
