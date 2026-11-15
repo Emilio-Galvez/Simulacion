@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Java / Maven
+java/build/
+java/target/
+
+# Secuencias grandes: se regeneran ejecutando Python y Java
+java/results/sequences/sequence_100000.csv
+java/results/sequences/sequence_1000000.csv
+python/results/sequences/sequence_100000.csv
+python/results/sequences/sequence_1000000.csv
