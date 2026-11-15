@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Java
+java/build/
+java/target/
+*.class
+
+# Editores
+.idea/
+.vscode/
+*.iml
